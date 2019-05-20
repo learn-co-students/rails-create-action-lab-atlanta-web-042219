@@ -9,9 +9,23 @@ class StudentsController < ApplicationController
   end
 
   def new
+    @student = Student.new
   end
 
   def create
+    # byebug
+    @student = Student.new(first_name: params[:first_name], last_name: params[:last_name])
+    if @student.save
+      redirect_to student_path(@student)
+    else
+      render :new
+    end
+  end
+
+  private
+
+  def create_params
+     params.require(:student).permit(:first_name, :last_name)
   end
 
 end
